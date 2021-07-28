@@ -8,7 +8,7 @@
 
 ## About
 
-This package uses the `requests`, `BeautifulSoup`, `Whastapp Python API` with MultiThreading Support to check if any new result is declared on GNDU website, and reports back to us through Whatsapp.
+This Application uses the `requests`, `BeautifulSoup`, `Whastapp Python API` with MultiThreading Support to check if any new result is declared on GNDU website, and reports back to us through Whatsapp.
 
 ## Changelog
 Version 1.x
