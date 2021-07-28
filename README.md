@@ -17,7 +17,7 @@ Version 1.x
 
 The lead developer is Anhat Singh
 
-## Building / Installing Python-Auto-Attendance
+## Building / Installing GNDU-Result-Checker
 
 ### Pre-Requisites
 1. Install the Python dependencies by running the following pip commands
