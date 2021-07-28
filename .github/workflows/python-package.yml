@@ -1,4 +1,4 @@
-name: Debugging
+name: Debugging Status
 on: [push, pull_request]
 
 jobs:
