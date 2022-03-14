@@ -26,6 +26,7 @@ class Fetcher:
         self.config = setup
         self.locations = paths
         self.sleepTime = sleepTime
+        self.number_of_retries = 0
 
     def view_state_finder(self, formUrl, postData):
         # set options for chromedriver of selenium
@@ -56,9 +57,14 @@ class Fetcher:
             
             vs = driver.find_element(By.ID, "__VIEWSTATE").get_attribute("value")
             driver.close()
+            self.number_of_retries = 0
             return vs
-        except Exception:
-            logger.exception('Error while getting view state in fetcher')
+        except:
+            if self.number_of_retries < 30:
+                time.sleep(10)
+                self.number_of_retries += 1
+                return self.view_state_finder(formUrl, postData)
+            logger.exception(f'Retry {self.number_of_retries}: Error while getting view state in fetcher')
 
 
     def get_each_student_data(self, rollNumber, viewState, postData, getUrl, displayUrl, subjects, Q):

@@ -45,6 +45,7 @@ class Whatsapp:
         self.options  = opt
         self.chats = chats
         self.header = 'BOTI\n\n'
+        self.number_of_retries = 0
     
     def set_chat(self, chats):
         self.chats = chats
@@ -155,7 +156,6 @@ class Whatsapp:
             return False
     
     def cycle_send_all(self, msg):
-        number_of_retries = 0
         try:
             lock.acquire()
             self.open()
@@ -164,9 +164,9 @@ class Whatsapp:
             lock.release()
             return result
         except:
-            if number_of_retries < 30:
+            if self.number_of_retries < 30:
                 time.sleep(10)
-                number_of_retries += 1
+                self.number_of_retries += 1
                 return self.cycle_send_all(msg)                
-            self.logger.exception(f'Retry {number_of_retries}: Error occurred while running cycle to send messages')
+            self.logger.exception(f'Retry {self.number_of_retries}: Error occurred while running cycle to send messages')
             return False
