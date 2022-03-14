@@ -73,7 +73,7 @@ setup = {
             # Number of subjects there are in the above semester.
             'numberofsubjects': 5,
             # Title of the sheet to be created inside the Workbook.
-            'sheetTitle': 'Section A and B',
+            'sheetTitle': 'A and B',
             # url of the page where the result will be announced.
             'ResultPage' : 'https://collegeadmissions.gndu.ac.in/studentArea/GNDUEXAMRESULT.aspx',
             # url of the page where the result is displayed.
@@ -82,7 +82,7 @@ setup = {
         # same as above.
         '1702':
             {
-            'name': 'B.Tech. CS Section C',
+            'name': 'B.Tech. CE Section C',
             'rollNumberToCrawl': [],
             'Year': 2021,
             'Month': 12,
@@ -91,7 +91,7 @@ setup = {
             'iniRoll': 17022000301,
             'totalStu': 52,
             'numberofsubjects': 5,
-            'sheetTitle': 'Section C',
+            'sheetTitle': 'C',
             'ResultPage' : 'https://collegeadmissions.gndu.ac.in/studentArea/GNDUEXAMRESULT.aspx',
             'DisplayPage': 'https://collegeadmissions.gndu.ac.in/studentArea/GNDUEXAMRESULTDISPLAY.aspx'
         }

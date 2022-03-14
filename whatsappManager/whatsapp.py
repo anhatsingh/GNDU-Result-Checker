@@ -155,6 +155,7 @@ class Whatsapp:
             return False
     
     def cycle_send_all(self, msg):
+        number_of_retries = 0
         try:
             lock.acquire()
             self.open()
@@ -163,5 +164,9 @@ class Whatsapp:
             lock.release()
             return result
         except:
-            self.logger.exception('Error occurred while running cycle to send messages')
+            if number_of_retries < 30:
+                time.sleep(10)
+                number_of_retries += 1
+                return self.cycle_send_all(msg)                
+            self.logger.exception(f'Retry {number_of_retries}: Error occurred while running cycle to send messages')
             return False
