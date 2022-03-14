@@ -51,10 +51,10 @@ class Whatsapp:
         self.chats = chats
     
     def set_header(self, strng):
-        self.header = strng + '\n\n'
+        self.header = strng + '\n'
 
     def __compile_with_header(self, msg):
-        return self.header + msg
+        return self.header + 'Time: {time.strftime("%I:%M:%S %p, %d-%m-%Y")}\n\n' + msg
     
     def open(self):
         try:

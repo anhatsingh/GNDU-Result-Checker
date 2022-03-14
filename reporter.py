@@ -27,7 +27,7 @@ def run(setup):
     if setup['reporter']['run']:
         wa = Whatsapp()
         wa.set_chat(setup['whatsapp_chats']['report_at'])
-        wa.set_header(f'Reporter v1\nTime: {time.strftime("%I:%M:%S %p, %d-%m-%Y")}')
+        wa.set_header('Reporter v1.2')
 
         sheets_file = open(setup['paths']['sheets_data'])
         sheets_file.readline()

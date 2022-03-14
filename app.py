@@ -140,7 +140,7 @@ if __name__ == "__main__":
     # set the list of chats we want to send messages to!
     whatsApp.set_chat(setup['whatsapp_chats']['result_found_send_at'])
     # set the common heading of all the messages sent using this class.
-    whatsApp.set_header(f'BOT v4.3\nTime: {time.strftime("%I:%M:%S %p, %d-%m-%Y")}')
+    whatsApp.set_header('BOT v4.3')
 
     # if we want to send a greeting message before running everything, control executes the following block.
     if setup['greeting']:
