@@ -54,7 +54,7 @@ class Whatsapp:
         self.header = strng + '\n'
 
     def __compile_with_header(self, msg):
-        return self.header + 'Time: {time.strftime("%I:%M:%S %p, %d-%m-%Y")}\n\n' + msg
+        return f'{self.header}Time: {time.strftime("%I:%M:%S %p, %d-%m-%Y")}\n\n{msg}'
     
     def open(self):
         try:
