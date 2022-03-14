@@ -1,106 +1,167 @@
-import time, re, traceback
+import time, re, traceback, logging, threading
 from datetime import datetime
-from seleniumManager.LocalStorage import LocalStorage as ls
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from webdriver_manager.chrome import ChromeDriverManager
+
+
+chatlist_search = "._13NKt.copyable-text.selectable-text"
+first_conversation = "#pane-side > div:nth-child(1) > div > div > div:nth-child(1)"
+typing_textbox = "#main > footer > div._2BU3P.tm2tP.copyable-area > div > span:nth-child(2) > div > div._2lMWa > div.p3_M1 > div > div._13NKt.copyable-text.selectable-text"
+send_message_button = "._4sWnG"
+
+messages_general = "._22Msk"
+each_msg_text = "div._1Gy50 > span > span"
+each_msg_time = '._2jGOb.copyable-text'
+each_msg_time_format = '[%I:%M %p, %d/%m/%Y]'
+each_msg_sender = '.a71At.ajgl1lbb.edeob0r2.i0jNr'
+
+lock = threading.Lock()
 
 class Whatsapp:
-    def __init__(self, driver, keys):
-        self.driver = driver
-        self.storage = ls(driver)
-        self.keys = keys
-
-    def start(self):
-        self.driver.get('https://web.whatsapp.com')
-        self.driver.implicitly_wait(100)
-
-    def loggedin(self):        
-        if self.storage.get("Z0Gmg72LLOEpnd2wuGqKcw==") != None:
-            return True
-        else:
-            return False
-
-    def waitForLogin(self):        
-        #if(self.loggedin() == False):
-            #print("Whatsapp not Logged in")
-
-        while(self.loggedin() == False):            
-            time.sleep(2)
-        print("Whatsapp Logged in")
-        self.driver.implicitly_wait(100)
-
-    def getAllNames(self, returnElements = True):        
-        try:
-            elements = self.driver.find_elements_by_class_name("_3-8er")
-            listOfPeople = []
-            for i in elements:
-                listOfPeople.append(i.get_attribute("title"))
-            if(returnElements):
-                return elements
-            else:
-                return listOfPeople
+    def __init__(self, chats = []):
+        self.logger = logging.getLogger(__name__)
+        opt = Options()
+        opt.add_argument("--disable-infobars")
+        opt.add_argument("start-maximized")
+        opt.add_argument("--disable-extensions")
+        opt.add_argument("user-data-dir=C:\\chromedriver\\user_data\\")
+        # Pass the argument 1 to allow and 2 to block
         
-        except Exception as e:            
-            error = traceback.format_exc()
-            print(error)
-            #do error handling here later.
-    
-    def getName(self, name, returnElement = True):        
-        elements = self.getAllNames()
-        for i in elements:
-            if(i.get_attribute("title") == name):
-                if(returnElement):
-                    return i
-                else:
-                    return i.get_attribute("title")            
-        return None
+        opt.add_experimental_option("prefs", { \
+            "profile.default_content_setting_values.media_stream_mic": 1, 
+            "profile.default_content_setting_values.media_stream_camera": 1,
+            "profile.default_content_setting_values.geolocation": 0, 
+            "profile.default_content_setting_values.notifications": 1,            
+        })
+        opt.add_experimental_option('excludeSwitches', ['enable-logging'])
 
-    def openConvo(self, name, sleep = 5):
-        nameElement = self.getName(name)
-        parent = nameElement.find_element_by_xpath("./ancestor::div[contains(concat(' ', @class, ' '), ' _2aBzC ')][1]")
-        parent.click()
-        time.sleep(sleep)
+        self.options  = opt
+        self.chats = chats
+        self.header = 'BOTI\n\n'
+    
+    def set_chat(self, chats):
+        self.chats = chats
+    
+    def set_header(self, strng):
+        self.header = strng + '\n\n'
+
+    def __compile_with_header(self, msg):
+        return self.header + msg
+    
+    def open(self):
+        try:
+            self.driver = webdriver.Chrome(ChromeDriverManager(log_level=0).install(), options = self.options)
+            self.driver.get('https://web.whatsapp.com')
+            self.driver.implicitly_wait(100)
+            WebDriverWait(self.driver, 300).until(EC.visibility_of_element_located((By.CSS_SELECTOR, chatlist_search)))
+            self.logger.info('Initiated')
+        except:
+            self.logger.exception("Error Occurred while opening whatsapp")
     
     def getAllMessages(self, name):
         time.sleep(1)
-        self.openConvo(name)        
-        parent = self.driver.find_elements_by_class_name("_3ExzF")
+        self.openConversation(name)        
+        parent = self.driver.find_elements(By.CSS_SELECTOR, messages_general)
 
         self.driver.implicitly_wait(10)
         messages = []
         a = 1        
         for i in parent:        
             try:
-                message = i.find_element_by_xpath("./span/span").text
-                theTime = i.find_element_by_xpath('..').get_attribute("data-pre-plain-text")
+                message = i.find_element(By.CSS_SELECTOR, each_msg_text).text
+                theTime = i.find_element(By.CSS_SELECTOR, each_msg_time).get_attribute("data-pre-plain-text")
                 
                 theTime = re.findall(r'\[.*?\]', theTime)
-                theTime = datetime.strptime(theTime[0], '[%I:%M %p, %m/%d/%Y]')
+                theTime = datetime.strptime(theTime[0], each_msg_time_format)
 
                 eachMsg = {
                     "id": a,
                     "msg": message,
                     "time": theTime,
-                    "group": name
+                    "sender": i.find_element(By.CSS_SELECTOR, each_msg_sender).text
                 }
                 messages.append(eachMsg)
                 a+=1
-            except Exception as e:            
-                error = traceback.format_exc()
-                print(error)
+            except:            
+                self.logger.exception("Error occurred while retrieving messages")
             #do error handling here later.
 
         return messages
+    
+    def openConversation(self, name):
+        try:
+            searchbar = self.driver.find_element(By.CSS_SELECTOR, chatlist_search)
+            searchbar.send_keys(name)
+            time.sleep(1)
+            self.driver.find_element(By.CSS_SELECTOR, first_conversation).click()
+            self.logger.info(f'Opened chat: {name}')
+            time.sleep(1)
+            return True
+        except:
+            self.logger.exception(f'Error occurred while opening conversation {name}')
+            return False
+    
+    def send_all(self, msg, send_headers = True):
+        return_list = []
+        if send_headers:
+                msg = self.__compile_with_header(msg)
+
+        for i in self.chats:
+            return_list.append(self.send_single(i, msg))
         
-    def sendMessage(self, name, msg):
-        time.sleep(1)
-        self.openConvo(name)
-        textarea = self.driver.find_elements_by_class_name("_2_1wd")[-1]
+        return False if False in set(return_list) else True
 
-        msg = msg.split("<br>")        
-        for i in msg:
-            textarea.send_keys(i)
-            textarea.send_keys(self.keys.SHIFT + self.keys.ENTER)
+    def send_single(self, chat_name, msg):
+        ''' Sends a whatsapp message to chat_name.
+        '''
+        try:
+            
+            time.sleep(1)
+            if self.openConversation(chat_name):    
+                textarea = self.driver.find_element(By.CSS_SELECTOR, typing_textbox)
 
-        self.driver.implicitly_wait(100)
-        time.sleep(1)        
-        sendButton = self.driver.find_element_by_class_name("_1E0Oz")        
-        sendButton.click()
+                msg = msg.split("\n")        
+                for i in msg:
+                    textarea.send_keys(i)
+                    textarea.send_keys(Keys.SHIFT + Keys.ENTER)
+
+                self.driver.implicitly_wait(100)
+                time.sleep(1)        
+                self.driver.find_element(By.CSS_SELECTOR, send_message_button).click()
+                self.logger.info(f'Message Sent: "{chat_name}" -> {" ".join(msg)}')
+                time.sleep(5)
+                return True
+            else:
+                self.logger.exception(f'Unable to send message to "{chat_name}" MSG: {" ".join(msg)}')
+                return False
+        except:
+            self.logger.exception(f'Unable to send message to "{chat_name}" MSG: {" ".join(msg)}')
+            return False
+    
+    def exit(self):
+        try:
+            self.logger.info('Exiting')
+            self.driver.close()
+            return True
+        except:
+            self.logger.exception('Error occurred while exiting whatsapp')
+            return False
+    
+    def cycle_send_all(self, msg):
+        try:
+            lock.acquire()
+            self.open()
+            result = self.send_all(msg)
+            self.exit()
+            lock.release()
+            return result
+        except:
+            self.logger.exception('Error occurred while running cycle to send messages')
+            return False
