@@ -24,7 +24,7 @@ setup = {
             # send greetings and result found messages to these groups/individuals.
             'result_found_send_at': ['Copy-cats', 'A Students'],
             # send the app reporting status to these groups.
-            'report_at': ['Logger']
+            'report_at': ['Logger', 'Copy-cats']
     },
 
     # all settings for result checker.
@@ -55,7 +55,7 @@ setup = {
         '1703':
             {
             # name of the course, to be sent along the message on whatsapp.
-            'name': 'B.Tech. CSE Section A & B',
+            'name': 'B.Tech. CSE (Section A & B)',
             # additional roll numbers to check result for which are not in a sequence of numbers.
             'rollNumberToCrawl': [17032001507,17032001510,17032007422,17032007456,17032007452,17032007444,17032007430],
             # year to fetch the result for.
@@ -82,7 +82,7 @@ setup = {
         # same as above.
         '1702':
             {
-            'name': 'B.Tech. CE Section C',
+            'name': 'B.Tech. CE (Section C)',
             'rollNumberToCrawl': [],
             'Year': 2021,
             'Month': 12,
@@ -109,4 +109,4 @@ setup = {
 }
 
 # greeting message to be sent if it is set to True in above settings.
-greeting_msg = f'Hey everyone,\nI am a BOT (v4.3)\n\nI will check whether our Semester {setup["fetcher"]["1703"]["Semester"]} result is uploaded or not, and will inform you all as soon as it is!\n\nI am brand new so I may not work properly and will be getting regular updates :P.\n\nI will be back as soon as I find the result.\nBbieeee!\n\nP.S. If you want to help improve me, go to https://github.com/anhatsingh/GNDU-Result-Checker'
+greeting_msg = f'BOTI reporting for duty.\n\nI will check whether our Semester {setup["fetcher"]["1703"]["Semester"]} result is uploaded or not, and will inform you all as soon as it is!\n\nI am brand new so I may not work properly and will be getting regular updates :P.\n\nI will be back as soon as I find the result.\nBbieeee!\n\nP.S. If you want to help improve me, go to https://tiny.one/as-gh'

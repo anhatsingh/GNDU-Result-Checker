@@ -140,7 +140,7 @@ if __name__ == "__main__":
     # set the list of chats we want to send messages to!
     whatsApp.set_chat(setup['whatsapp_chats']['result_found_send_at'])
     # set the common heading of all the messages sent using this class.
-    whatsApp.set_header('BOT v4.3')
+    whatsApp.set_header('BOTI v4.5')
 
     # if we want to send a greeting message before running everything, control executes the following block.
     if setup['greeting']:
@@ -180,4 +180,4 @@ if __name__ == "__main__":
     p3.join()
 
     # send a goodbye message through whatsapp.
-    whatsApp.cycle_send_all('Everything Done, I am going to sleep, See ya all next sem!\n\nGoodnight!\n\nP.S. If you want to help improve this bot, go to https://github.com/anhatsingh/GNDU-Result-Checker')
+    whatsApp.cycle_send_all('Everything Done, I am going to sleep, See ya all next sem!\n\nGoodnight!\n\nP.S. If you want to help improve this bot, go to https://tiny.one/as-gh')
