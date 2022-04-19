@@ -22,9 +22,9 @@ setup = {
 
     'whatsapp_chats': {
             # send greetings and result found messages to these groups/individuals.
-            'result_found_send_at': ['Copy-cats', 'A Students'],
+            'result_found_send_at': ['Copy-cats', 'A Students (CET, GNDU)'],
             # send the app reporting status to these groups.
-            'report_at': ['Logger', 'Copy-cats']
+            'report_at': ['Logger']
     },
 
     # all settings for result checker.
@@ -44,7 +44,7 @@ setup = {
         # whether to run the reporter or not.
         'run': True,
         # after this much time, a status report is sent to the above mentioned whatsapp groups.
-        'sleep_time':  6*60*60          # in seconds
+        'sleep_time':  12*60*60          # in seconds
     },
 
     # all settings related to result fetcher.
