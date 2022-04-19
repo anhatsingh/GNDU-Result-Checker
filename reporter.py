@@ -27,11 +27,11 @@ def run(setup):
     if setup['reporter']['run']:
         wa = Whatsapp()
         wa.set_chat(setup['whatsapp_chats']['report_at'])
-        wa.set_header('Reporter v1.2')
+        wa.set_header('BOTI\'s News Reporter v1.2')
 
         sheets_file = open(setup['paths']['sheets_data'])
         sheets_file.readline()
-        wa.cycle_send_all(f'Reporter reporting for duty.\nURL: {sheets_file.readline()}')
+        wa.cycle_send_all(f'Reporter reporting for duty. I will report every {setup["reporter"]["sleep_time"]/3600} Hours.\nResult URL: {sheets_file.readline()}')
         sheets_file.close()
 
         report_status(wa, setup)

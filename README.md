@@ -6,35 +6,18 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Downloads](https://img.shields.io/badge/download-all%20releases-brightgreen.svg)](https://github.com/anhatsingh/GNDU-Result-Checker/releases/)
 
+
+TODO This file needs to be updated. Meanwhile, to know how to get started on this project, DM me if you know my number, or email me at anhatsingh2001@gmail.com
+
 ## About
 
-This Application uses the `requests`, `BeautifulSoup`, `Whastapp Python API` with MultiThreading Support to check if any new result is declared on GNDU website, and reports back to us through Whatsapp.
-
 ## Changelog
-Version 1.x
-1. Implements `Selenium` library to check if the result is declared on GNDU website.
-2. Reports the status constantly through Whatsapp.
-
-The lead developer is Anhat Singh
 
 ## Building / Installing GNDU-Result-Checker
 
 ### Pre-Requisites
-1. Install the Python dependencies by running the following pip commands
-    ```
-    pip install -r requirements.txt --no-index --find-links file:///tmp/packages
-    ```
-2. Open your whatsapp, create a group named `Automation`. Note that it is case sensitive.
-3. Use the included `chromedriver.exe` or download the latest one from [ChromeDriver - WebDriver for Chrome](https://chromedriver.chromium.org/) and keep it in the root directory.
 
 ## Running GNDU-Result-Checker
-
-1. Run the following command:
-    ```
-    py app.py
-    ```
-2. Login to Whatsapp Web using your phone.
-3. Enjoy!
 
 ## License
 
