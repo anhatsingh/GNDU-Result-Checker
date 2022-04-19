@@ -36,7 +36,8 @@ setup = {
         # year for which result to check for.
         'year': 2021,
         # month for which result to check for.
-        'month': 12
+        'month': 12,
+        'semester': 3
     },
 
     # all settings related to status reporter.

@@ -12,7 +12,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 logger = logging.getLogger(__name__)
 
-def getData(setup):
+def getData(setup, postData, field):
     opt = Options()
     opt.add_argument("--disable-infobars")
     opt.add_argument("start-maximized")
@@ -29,11 +29,6 @@ def getData(setup):
     opt.add_experimental_option('excludeSwitches', ['enable-logging'])
     driver = webdriver.Chrome(ChromeDriverManager(log_level=0).install(), options = opt)
 
-    postData = { #post data
-     'DrpDwnYear': str(setup['year']),
-     'DrpDwnMonth': str(setup['month']),
-     'DropDownCourseType': 'C'
-    }
     try:
         driver.get(setup['url'])
                 
@@ -42,7 +37,7 @@ def getData(setup):
             Select(driver.find_element(By.ID, i)).select_by_value(postData[i])
             time.sleep(2)
         
-        vs = driver.find_element(By.ID, "DrpDwnCMaster").find_elements(By.XPATH, ".//*")
+        vs = driver.find_element(By.ID, field).find_elements(By.XPATH, ".//*")
         vs = [i.get_attribute("value") for i in vs]
         driver.close()
         return vs 
@@ -55,10 +50,24 @@ def getData(setup):
 
 # get data from the gndu page
 def fetchCycle(setup):
+    postData = { #post data
+     'DrpDwnYear': str(setup['year']),
+     'DrpDwnMonth': str(setup['month']),
+     'DropDownCourseType': 'C'
+    }
+    postData2 = postData.copy()
     try:
-        data = getData(setup)
+        data = getData(setup, postData, "DrpDwnCMaster")
         L = [int(i) for i in data if i in list(map(str, setup['department']))]
-        return L
+        final_courses = []
+        if len(L) > 0:
+            for x in L:
+                postData2["DrpDwnCMaster"] = str(x)
+                sem_data = getData(setup, postData2, "DrpDwnCdetail")
+                sem_found = True if (str(x) + "0" + str(setup['semester'])) in sem_data else False
+                if sem_found:
+                    final_courses.append(x)
+        return list(set(final_courses))
     except:
         logger.exception('Error occurred during fetch cycle')
         return []
