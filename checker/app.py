@@ -61,9 +61,11 @@ def fetchCycle(setup):
         L = [int(i) for i in data if i in list(map(str, setup['department']))]
         final_courses = []
         if len(L) > 0:
+            print(L)
             for x in L:
                 postData2["DrpDwnCMaster"] = str(x)
                 sem_data = getData(setup, postData2, "DrpDwnCdetail")
+                print(sem_data)
                 sem_found = True if (str(x) + "0" + str(setup['semester'])) in sem_data else False
                 if sem_found:
                     final_courses.append(x)

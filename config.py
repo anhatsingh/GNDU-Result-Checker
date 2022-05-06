@@ -22,7 +22,7 @@ setup = {
 
     'whatsapp_chats': {
             # send greetings and result found messages to these groups/individuals.
-            'result_found_send_at': ['Copy-cats', 'A Students (CET, GNDU)'],
+            'result_found_send_at': ['Copy-cats', 'A Students (CET, GNDU)', "CRs' Announcements"],
             # send the app reporting status to these groups.
             'report_at': ['Logger']
     },
