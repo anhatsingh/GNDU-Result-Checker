@@ -11,8 +11,8 @@ from config import setup, greeting_msg
 # ================================================================================================================================================================
 
 # This will clear/make files required to share data with different modules.
-open(setup['paths']['fetcher_data'], 'w').close()
-open(setup['paths']['checker_data'], 'w').close()
+#open(setup['paths']['fetcher_data'], 'w').close()
+#open(setup['paths']['checker_data'], 'w').close()
 
 with open(setup['paths']['reporter_data'], 'w') as file:
     # check if we want to run reporter, if yes, write it to file, which will be read later.

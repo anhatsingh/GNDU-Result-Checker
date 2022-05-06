@@ -14,7 +14,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 chatlist_search = "._13NKt.copyable-text.selectable-text"
 first_conversation = "#pane-side > div:nth-child(1) > div > div > div:nth-child(1)"
 typing_textbox = "#main > footer > div._2BU3P.tm2tP.copyable-area > div > span:nth-child(2) > div > div._2lMWa > div.p3_M1 > div > div._13NKt.copyable-text.selectable-text"
-send_message_button = "._4sWnG"
+send_message_button = ".tvf2evcx.oq44ahr5.lb5m6g5c.svlsagor.p2rjqpw5.epia9gcq" #"._4sWnG"
 
 messages_general = "._22Msk"
 each_msg_text = "div._1Gy50 > span > span"

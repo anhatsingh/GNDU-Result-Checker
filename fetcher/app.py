@@ -97,7 +97,7 @@ class Fetcher:
                 "Name":                 soup.select('#form1 > center > table > span:nth-child(3) > b > tr:nth-child(2) > td:nth-child(1) > b:nth-child(2)')[0].getText(),
                 "Supply":               soup.select('#form1 > center > table > span:nth-child(3) > b > tr:nth-child(2) > td:nth-child(2) > b:nth-child(1)')[0].getText(),
                 "CGPA":                 tab3_tr[3].find_all("td")[1].find_all("b")[0].text,
-                "SGPA":                 tab3_tr[3].find_all("td")[1].find_all("b")[0].text
+                "SGPA":                 tab3_tr[2].find_all("td")[1].find_all("b")[0].text
                 }
             
             for i in range(subjects):

@@ -80,6 +80,7 @@ def fetchCycle(setup):
 def run(sleeptime, setup, paths):
         found = []
         while(len(found) < len(setup['department'])):
+            logger.info("Checking for Result")
             try:
                 found = fetchCycle(setup)
                 with open(paths['checker_data'], 'w') as file:
