@@ -1,1 +1,0 @@
-# GNDU-Result-Checker
