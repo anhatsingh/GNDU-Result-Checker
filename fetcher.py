@@ -111,9 +111,9 @@ def printc(text, **kwargs):
     print("[Fetcher] {}".format(text), **kwargs)
 
 
-def fetch_data(year_month_sem):
+def fetch_data(year_month_sem, roll_file):
     print("Initiating Fetcher\nYear : {}\nMonth : {}\nSemester : {}".format(year_month_sem["year"], year_month_sem["month"], year_month_sem["semester"]))    
-    df = pd.read_csv("roll_list.csv")    
+    df = pd.read_csv(roll_file)    
     course_codes = list(map(int, list(set(df["roll_no"] // 1e7))))    
     view_state_list = dict()
 
@@ -173,16 +173,16 @@ def fetch_data(year_month_sem):
     
 
 
-def run_fetcher(sem):
-    workbook_id = "1elPbLoNqYqqttAJYbuH0jqzE91I0zs-WfjDVOwb_nR0" # do not change    
+def run_fetcher(batch_start_year, file_containing_roll, google_workbook_link, sem):
+    workbook_id = google_workbook_link   
     months = [5,12]    
     setup = {
-        "year": 2020 + sem//2,
+        "year": batch_start_year + sem//2,
         "month": months[sem%2],
         "semester": sem
     }
 
-    data = fetch_data(setup)
+    data = fetch_data(setup, file_containing_roll)
 
     values = [data.columns.values.tolist()]
     values.extend(data.values.tolist())
@@ -194,7 +194,12 @@ def run_fetcher(sem):
         return google_link, not_found_list
 
 if __name__ == '__main__':
-    google_link, nf_list = run_fetcher(sem=5)
+    batch_start_year = 2022
+    file_containing_roll = "roll_list2.csv"
+    google_workbook_link = "189G8J733COODASX8pPv0SnY4gO1ULIPZWMYIiqhUJb0"
+    #workbook_id = "1elPbLoNqYqqttAJYbuH0jqzE91I0zs-WfjDVOwb_nR0" # do not change    
+
+    google_link, nf_list = run_fetcher(batch_start_year, file_containing_roll, google_workbook_link, sem=1)
 
     print(google_link)
 
